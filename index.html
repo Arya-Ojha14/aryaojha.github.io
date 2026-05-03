@@ -1,92 +1,1607 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Arya Ojha</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arya Ojha | Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
   <style>
+    /* ─── RESET & BASE ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #1c1d26;
+      --bg2:       #232435;
+      --accent:    #9a6fb0;
+      --accent2:   #c49dde;
+      --gold:      #e2b96f;
+      --text:      #c8c8d4;
+      --text-light:#e8e8f0;
+      --text-dim:  #888899;
+      --border:    rgba(255,255,255,0.08);
+      --card-bg:   rgba(255,255,255,0.03);
+      --serif:     'Merriweather', Georgia, serif;
+      --sans:      'Source Sans 3', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
     body {
-      background: #ffffff;
-      color: #111;
-      font-family: Arial, sans-serif;
-      max-width: 700px;
-      margin: 60px auto;
-      line-height: 1.6;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.75;
+      overflow-x: hidden;
     }
 
-    h1 {
-      font-size: 40px;
-      margin-bottom: 5px;
+    a { color: var(--accent2); text-decoration: none; transition: color .2s; }
+    a:hover { color: #fff; }
+
+    /* ─── NOISE OVERLAY ────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: .35;
     }
 
-    h2 {
-      margin-top: 50px;
-      font-size: 20px;
-      border-bottom: 1px solid #ddd;
-      padding-bottom: 5px;
+    /* ─── NAV BAR ──────────────────────────────────── */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      height: 3.5rem;
+      background: rgba(28,29,38,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: background .3s;
     }
 
-    p {
-      margin: 10px 0;
+    #navbar .brand {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: #fff;
+      letter-spacing: .02em;
     }
 
-    a {
-      color: black;
-      text-decoration: underline;
+    #nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
     }
 
-    .work {
-      margin-bottom: 25px;
+    #nav-links a {
+      font-size: .85rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      transition: color .2s;
+    }
+    #nav-links a:hover { color: #fff; }
+
+    /* hamburger */
+    #hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    #hamburger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: .3s;
+    }
+
+    /* ─── HERO ─────────────────────────────────────── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6rem 2rem 5rem;
+      overflow: hidden;
+    }
+
+    /* animated starfield bg */
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(154,111,176,.18) 0%, transparent 65%),
+        radial-gradient(ellipse 60% 80% at 80% 100%, rgba(226,185,111,.08) 0%, transparent 55%),
+        linear-gradient(180deg, #12131a 0%, #1c1d26 100%);
+      z-index: 0;
+    }
+
+    /* floating particles */
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0;
+      animation: drift linear infinite;
+    }
+
+    @keyframes drift {
+      0%   { opacity: 0; transform: translateY(0) scale(1); }
+      10%  { opacity: .5; }
+      90%  { opacity: .2; }
+      100% { opacity: 0; transform: translateY(-120vh) scale(.5); }
+    }
+
+    .hero-inner { position: relative; z-index: 1; max-width: 780px; }
+
+    .hero-inner h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.6rem, 7vw, 5rem);
+      font-weight: 300;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+      letter-spacing: -.01em;
+      animation: fadeUp .9s ease both;
+    }
+
+    .hero-inner .tagline {
+      font-size: clamp(.95rem, 2.5vw, 1.15rem);
+      color: var(--text-dim);
+      margin-bottom: .5rem;
+      animation: fadeUp .9s .15s ease both;
+    }
+
+    .hero-inner .location {
+      font-size: .85rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 2rem;
+      animation: fadeUp .9s .25s ease both;
+    }
+
+    .hero-inner p {
+      font-size: 1.05rem;
+      color: var(--text);
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
+      animation: fadeUp .9s .35s ease both;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeUp .9s .45s ease both;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .7rem 1.8rem;
+      border-radius: 2px;
+      font-size: .85rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      transition: all .25s;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: 2px solid var(--accent);
+    }
+    .btn-primary:hover {
+      background: transparent;
+      color: var(--accent2);
+      border-color: var(--accent2);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text-light);
+      border: 2px solid var(--border);
+    }
+    .btn-outline:hover {
+      border-color: var(--accent2);
+      color: var(--accent2);
+    }
+
+    /* scroll cue */
+    .scroll-cue {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .4rem;
+      color: var(--text-dim);
+      font-size: .72rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      animation: fadeIn 1.5s 1s ease both;
+    }
+
+    .scroll-cue i { animation: bounce 1.8s infinite; }
+
+    @keyframes bounce {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(6px); }
+    }
+
+    /* ─── DIVIDER ───────────────────────────────────── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0 4rem;
+    }
+
+    /* ─── SECTIONS ──────────────────────────────────── */
+    .section {
+      padding: 5rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: .6rem;
+    }
+
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(1.7rem, 4vw, 2.6rem);
+      font-weight: 300;
+      color: var(--text-light);
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .section-intro {
+      max-width: 640px;
+      color: var(--text-dim);
+      margin-bottom: 3rem;
+      font-size: .98rem;
+    }
+
+    /* ─── ABOUT ─────────────────────────────────────── */
+    #about .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .about-photo-wrap {
+      position: relative;
+    }
+
+    .about-photo-wrap img {
+      width: 100%;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      border-radius: 2px;
+      display: block;
+      filter: grayscale(20%);
+    }
+
+    /* placeholder if no photo */
+    .photo-placeholder {
+      width: 100%;
+      aspect-ratio: 4/5;
+      background: linear-gradient(135deg, #2a2b3d 0%, #1a1b28 100%);
+      border-radius: 2px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      font-size: .85rem;
+      letter-spacing: .06em;
+    }
+
+    .photo-placeholder i { font-size: 3rem; color: var(--accent); }
+
+    .about-photo-wrap::after {
+      content: '';
+      position: absolute;
+      top: 12px; left: 12px;
+      right: -12px; bottom: -12px;
+      border: 1px solid var(--accent);
+      border-radius: 2px;
+      z-index: -1;
+      opacity: .35;
+    }
+
+    .about-text p {
+      color: var(--text);
+      margin-bottom: 1.2rem;
+      font-size: .98rem;
+    }
+
+    .about-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      margin-top: 1.5rem;
+    }
+
+    .tag {
+      padding: .3rem .9rem;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      font-size: .78rem;
+      letter-spacing: .06em;
+      color: var(--text-dim);
+      transition: all .2s;
+    }
+    .tag:hover { border-color: var(--accent); color: var(--accent2); }
+
+    /* ─── TILES (projects / sections) ──────────────── */
+    .tile-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .tile {
+      position: relative;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+      transition: transform .3s, border-color .3s, box-shadow .3s;
+    }
+
+    .tile:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+      box-shadow: 0 12px 40px rgba(154,111,176,.15);
+    }
+
+    .tile-thumb {
+      width: 100%;
+      aspect-ratio: 16/10;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(25%) brightness(.85);
+      transition: filter .4s;
+    }
+
+    .tile:hover .tile-thumb { filter: grayscale(0) brightness(1); }
+
+    .tile-thumb-placeholder {
+      width: 100%;
+      aspect-ratio: 16/10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      color: var(--accent);
+    }
+
+    .tile-body { padding: 1.4rem 1.6rem 1.8rem; }
+
+    .tile-category {
+      font-size: .7rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: .4rem;
+      font-weight: 700;
+    }
+
+    .tile h3 {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--text-light);
+      margin-bottom: .6rem;
+    }
+
+    .tile p {
+      font-size: .88rem;
+      color: var(--text-dim);
+      line-height: 1.65;
+    }
+
+    .tile-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      margin-top: 1rem;
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--accent2);
+    }
+    .tile-link i { transition: transform .2s; }
+    .tile-link:hover i { transform: translateX(4px); }
+
+    /* ─── CERTIFICATIONS ─────────────────────────────── */
+    .cert-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+
+    .cert-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.2rem 1.4rem;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      transition: border-color .25s;
+    }
+
+    .cert-card:hover { border-color: var(--accent); }
+
+    .cert-icon {
+      width: 2.4rem; height: 2.4rem;
+      min-width: 2.4rem;
+      border-radius: 50%;
+      background: rgba(154,111,176,.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent2);
+      font-size: 1rem;
+      margin-top: .1rem;
+    }
+
+    .cert-name {
+      font-size: .92rem;
+      color: var(--text-light);
+      font-weight: 600;
+      margin-bottom: .2rem;
+    }
+
+    .cert-org {
+      font-size: .78rem;
+      color: var(--text-dim);
+    }
+
+    /* ─── SKILLS ─────────────────────────────────────── */
+    .skills-groups {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+    }
+
+    .skill-group h4 {
+      font-size: .75rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .skill-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .45rem;
+    }
+
+    .pill {
+      padding: .28rem .85rem;
+      background: rgba(154,111,176,.1);
+      border: 1px solid rgba(154,111,176,.2);
+      border-radius: 2px;
+      font-size: .8rem;
+      color: var(--text);
+      transition: all .2s;
+    }
+    .pill:hover { background: rgba(154,111,176,.25); color: #fff; }
+
+    /* ─── EDUCATION TIMELINE ─────────────────────────── */
+    .timeline { position: relative; padding-left: 2rem; }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: .5rem; bottom: 0;
+      width: 1px;
+      background: linear-gradient(180deg, var(--accent), transparent);
+    }
+
+    .tl-item {
+      position: relative;
+      margin-bottom: 2.5rem;
+    }
+
+    .tl-item::before {
+      content: '';
+      position: absolute;
+      left: -2.37rem;
+      top: .45rem;
+      width: .75rem; height: .75rem;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 3px rgba(154,111,176,.25);
+    }
+
+    .tl-date {
+      font-size: .75rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: .3rem;
+      font-weight: 700;
+    }
+
+    .tl-title {
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: var(--text-light);
+      margin-bottom: .2rem;
+    }
+
+    .tl-org {
+      font-size: .88rem;
+      color: var(--accent2);
+      margin-bottom: .5rem;
+    }
+
+    .tl-desc {
+      font-size: .88rem;
+      color: var(--text-dim);
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 2.5rem 2rem;
+      font-size: .8rem;
+      color: var(--text-dim);
+      letter-spacing: .04em;
+    }
+
+    footer a { color: var(--text-dim); }
+    footer a:hover { color: var(--accent2); }
+
+    /* ─── ANIMATIONS ─────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* reveal on scroll */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── MY WORKS ───────────────────────────────────── */
+    .works-filter {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .filter-btn {
+      padding: .35rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      background: transparent;
+      color: var(--text-dim);
+      font-family: var(--sans);
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.4rem;
+    }
+
+    .work-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+      transition: transform .3s, border-color .3s, box-shadow .3s;
+      display: flex;
+      flex-direction: column;
+    }
+    .work-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+      box-shadow: 0 12px 36px rgba(154,111,176,.14);
+    }
+
+    .work-thumb {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      display: block;
+      filter: brightness(.8);
+      transition: filter .3s;
+    }
+    .work-card:hover .work-thumb { filter: brightness(1); }
+
+    .work-thumb-placeholder {
+      width: 100%;
+      aspect-ratio: 16/9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: .6rem;
+      font-size: .78rem;
+      letter-spacing: .06em;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+      transition: background .3s;
+    }
+    .work-card:hover .work-thumb-placeholder { background: rgba(154,111,176,.06); }
+    .work-thumb-placeholder i { font-size: 2rem; color: var(--accent); }
+
+    .work-body {
+      padding: 1.2rem 1.4rem 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .work-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: .5rem;
+    }
+
+    .work-type {
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: .2rem .65rem;
+      border-radius: 2px;
+    }
+    .wt-writing  { background: rgba(154,111,176,.15); color: var(--accent2); }
+    .wt-analytics{ background: rgba(111,176,196,.15); color: #6fb0c4; }
+    .wt-design   { background: rgba(226,185,111,.12); color: var(--gold); }
+    .wt-research { background: rgba(124,196,122,.12); color: #7cc47a; }
+    .wt-other    { background: rgba(196,124,144,.12); color: #c47c90; }
+
+    .work-date {
+      font-size: .75rem;
+      color: var(--text-dim);
+    }
+
+    .work-title {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--text-light);
+      margin-bottom: .45rem;
+      line-height: 1.4;
+    }
+
+    .work-desc {
+      font-size: .85rem;
+      color: var(--text-dim);
+      line-height: 1.65;
+      flex: 1;
+      margin-bottom: 1rem;
+    }
+
+    .work-actions {
+      display: flex;
+      gap: .7rem;
+      flex-wrap: wrap;
+      margin-top: auto;
+    }
+
+    .work-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      padding: .4rem .9rem;
+      border-radius: 2px;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      transition: all .2s;
+    }
+    .work-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent2);
+    }
+    .work-btn.primary-btn {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .work-btn.primary-btn:hover {
+      background: transparent;
+      color: var(--accent2);
+    }
+
+    /* add-work placeholder card */
+    .work-card.add-card {
+      border-style: dashed;
+      border-color: rgba(154,111,176,.3);
+      align-items: center;
+      justify-content: center;
+      min-height: 260px;
+      cursor: pointer;
+      background: transparent;
+    }
+    .work-card.add-card:hover {
+      border-color: var(--accent);
+      background: rgba(154,111,176,.04);
+      transform: none;
+      box-shadow: none;
+    }
+    .add-card-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .7rem;
+      padding: 2rem;
+      text-align: center;
+      color: var(--text-dim);
+    }
+    .add-card-inner i { font-size: 2rem; color: rgba(154,111,176,.5); }
+    .add-card-inner span { font-size: .82rem; letter-spacing: .06em; }
+
+    /* ─── CONTACT (updated — no form) ────────────────── */
+    #contact {
+      background: linear-gradient(135deg, #16171f 0%, #1c1d26 100%);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    #contact .contact-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .contact-info h2 {
+      font-family: var(--serif);
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 300;
+      color: var(--text-light);
+      margin-bottom: 1rem;
+    }
+
+    .contact-info > p {
+      color: var(--text-dim);
+      font-size: .95rem;
+      margin-bottom: 2.5rem;
+      line-height: 1.8;
+    }
+
+    .contact-detail {
+      display: flex;
+      align-items: center;
+      gap: .85rem;
+      margin-bottom: 1.1rem;
+      font-size: .92rem;
+      color: var(--text);
+    }
+    .contact-detail i { width: 1.6rem; color: var(--accent2); font-size: .95rem; }
+
+    .social-row {
+      display: flex;
+      gap: .8rem;
+      margin-top: 2.5rem;
+    }
+
+    .social-btn {
+      width: 2.6rem; height: 2.6rem;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-dim);
+      font-size: .95rem;
+      transition: all .25s;
+    }
+    .social-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent2);
+      background: rgba(154,111,176,.1);
+    }
+
+    /* availability card */
+    .avail-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 2rem;
+    }
+
+    .avail-card h3 {
+      font-family: var(--serif);
+      font-size: 1.15rem;
+      font-weight: 400;
+      color: var(--text-light);
+      margin-bottom: 1rem;
+    }
+
+    .avail-item {
+      display: flex;
+      align-items: flex-start;
+      gap: .8rem;
+      padding: .75rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: .88rem;
+      color: var(--text);
+    }
+    .avail-item:last-of-type { border-bottom: none; }
+    .avail-item i { color: var(--accent2); margin-top: .15rem; min-width: 1rem; }
+
+    .avail-badge {
+      display: inline-block;
+      margin-top: 1.5rem;
+      padding: .4rem 1rem;
+      background: rgba(124,196,122,.1);
+      border: 1px solid rgba(124,196,122,.25);
+      border-radius: 2px;
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #7cc47a;
+    }
+    .avail-badge::before {
+      content: '● ';
+      font-size: .6rem;
+    }
+
+    @media (max-width: 768px) {
+      #nav-links { display: none; flex-direction: column; position: absolute; top: 3.5rem; left: 0; right: 0; background: rgba(28,29,38,.98); padding: 1.5rem 2rem; gap: 1.2rem; border-bottom: 1px solid var(--border); }
+      #nav-links.open { display: flex; }
+      #hamburger { display: flex; }
+      #about .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      #contact .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .section { padding: 3.5rem 1.5rem; }
+      .works-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
-
 <body>
 
-<h1>Arya Ojha</h1>
-<p>Content, storytelling, and digital narratives.</p>
+  <!-- ── NAVBAR ─────────────────────────────────────── -->
+  <nav id="navbar">
+    <div class="brand">Arya Ojha</div>
+    <ul id="nav-links">
+      <li><a href="#hero">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#works">My Works</a></li>
+      <li><a href="#certifications">Certifications</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button id="hamburger" aria-label="Menu" onclick="document.getElementById('nav-links').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
 
-<h2>About</h2>
-<p>
-I am an English Honours graduate interested in how stories move across formats—
-from text to social media to audio. I focus on building content that is
-clear, engaging, and structured for attention.
-</p>
+  <!-- ── HERO ───────────────────────────────────────── -->
+  <section id="hero">
+    <!-- particles -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        for (let i = 0; i < 22; i++) {
+          const p = document.createElement('div');
+          p.className = 'particle';
+          const size = Math.random() * 3 + 1;
+          p.style.cssText = `
+            width:${size}px; height:${size}px;
+            left:${Math.random()*100}%;
+            bottom:-${size}px;
+            animation-duration:${Math.random()*18+12}s;
+            animation-delay:${Math.random()*10}s;
+            opacity:0;
+          `;
+          document.getElementById('hero').appendChild(p);
+        }
+      });
+    </script>
 
-<h2>Selected Work</h2>
+    <div class="hero-inner">
+      <div class="tagline">✦ &nbsp; Portfolio &nbsp; ✦</div>
+      <h1>Arya Ojha</h1>
+      <div class="location"><i class="fa-solid fa-location-dot"></i> &nbsp; Kolkata, West Bengal, India</div>
+      <p>
+        English Honours Graduate · Content Writer · Business Analytics Enthusiast ·
+        Certified in Power BI, AI &amp; ML, and Microsoft Copilot.
+        Drawn to the intersection of words, data, and ideas.
+      </p>
+      <div class="btn-group">
+        <!-- Replace the href below with your actual Google Drive resume link -->
+        <a class="btn btn-primary" href="#" target="_blank">
+          <i class="fa-regular fa-file-lines"></i> Get My Resume
+        </a>
+        <a class="btn btn-outline" href="#contact">
+          <i class="fa-regular fa-paper-plane"></i> Get in Touch
+        </a>
+      </div>
+    </div>
 
-<div class="work">
-  <strong>AI Influencers & Entrepreneurship</strong>
-  <p>
-  A short-form script exploring how AI influencers are reshaping the idea of
-  identity, branding, and growth in the digital economy.
-  </p>
-</div>
+    <div class="scroll-cue">
+      <span>Scroll</span>
+      <i class="fa-solid fa-chevron-down"></i>
+    </div>
+  </section>
 
-<div class="work">
-  <strong>Education Carousel</strong>
-  <p>
-  A 6-slide Instagram carousel examining the gap between academic learning
-  and real-world skills, with a focus on youth perspectives.
-  </p>
-</div>
+  <div class="divider"></div>
 
-<div class="work">
-  <strong>Writing Sample: The False Promise of Education</strong>
-  <p>
-  A short reflection on how the education system often prioritizes performance
-  over preparedness.
-  </p>
-</div>
+  <!-- ── ABOUT ──────────────────────────────────────── -->
+  <section id="about" class="section">
+    <div class="about-grid reveal">
+      <div class="about-photo-wrap">
+        <!--
+          PHOTO: Replace the div below with:
+          <img src="images/your-photo.jpg" alt="Arya Ojha" />
+          and place your photo in an /images folder in your repo.
+        -->
+        <div class="photo-placeholder">
+          <i class="fa-regular fa-user"></i>
+          <span>Add your photo here</span>
+        </div>
+      </div>
 
-<h2>Writing</h2>
-<p>
-I am interested in narrative structure, audience psychology, and how
-content adapts across platforms. My work explores the intersection
-of storytelling and digital culture.
-</p>
+      <div class="about-text">
+        <div class="section-label">About Me</div>
+        <h2 class="section-title">Thoughtful Communicator.<br/>Curious Mind.</h2>
+        <p>
+          Hi, I am an English Honours graduate trained in Literature — shaped by questions and
+          deeply interested in how words, people, and ideas intersect. Drawn to nature, open roads,
+          and new experiences, I vehemently believe that meaning isn't found in one lane.
+        </p>
+        <p>
+          My academic training has sharpened my ability to analyze ideas, articulate perspectives
+          clearly, and engage with complexity in a structured manner. I have a strong foundation in
+          communication, content development, and leadership.
+        </p>
+        <p>
+          Through public speaking, debate, and elocution — along with leadership training programs
+          focused on structured social work — I've developed clarity of thought, teamwork, and
+          people-management skills. I've also worked on community outreach initiatives, including
+          teaching underprivileged children, which strengthened my sense of responsibility and
+          social awareness.
+        </p>
 
-<h2>Contact</h2>
-<p>Email: aryaojha2004@gmail.com</p>
-<p><a href="https://linkedin.com/in/arya-ojha-627280291">LinkedIn</a></p>
+        <div class="about-tags">
+          <span class="tag">Content Writing</span>
+          <span class="tag">Business Analytics</span>
+          <span class="tag">Power BI</span>
+          <span class="tag">AI &amp; ML</span>
+          <span class="tag">MS Copilot</span>
+          <span class="tag">Public Speaking</span>
+          <span class="tag">Leadership</span>
+          <span class="tag">Community Outreach</span>
+          <span class="tag">Prompt Engineering</span>
+          <span class="tag">Azure</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── PROJECTS / SECTIONS ───────────────────────── -->
+  <section id="projects" class="section">
+    <div class="reveal">
+      <div class="section-label">Explore</div>
+      <h2 class="section-title">What I Do</h2>
+      <p class="section-intro">
+        A snapshot of my key areas — from content and communication to analytics and
+        community work. Click any card to learn more.
+      </p>
+    </div>
+
+    <div class="tile-grid">
+
+      <!-- Tile 1 – Content Writing -->
+      <div class="tile reveal">
+        <div class="tile-thumb-placeholder" style="background:linear-gradient(135deg,#1e1b2e,#2d2045);">
+          <i class="fa-solid fa-pen-nib"></i>
+        </div>
+        <div class="tile-body">
+          <div class="tile-category">Writing</div>
+          <h3>Content Writing &amp; Copywriting</h3>
+          <p>Blogs, articles, social media posts, email newsletters, ad copy, white papers, and
+             case studies. Strong C1+ English proficiency with a literary sensibility.</p>
+          <a href="#contact" class="tile-link">Connect <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <!-- Tile 2 – Analytics -->
+      <div class="tile reveal">
+        <div class="tile-thumb-placeholder" style="background:linear-gradient(135deg,#1a2535,#1e3a4a);">
+          <i class="fa-solid fa-chart-bar" style="color:#6fb0c4;"></i>
+        </div>
+        <div class="tile-body">
+          <div class="tile-category">Analytics</div>
+          <h3>Business Analytics &amp; Reporting</h3>
+          <p>Data organization and trend analysis using Excel, Google Sheets, and Power BI.
+             Report preparation, dashboard design, and data-driven insight communication.</p>
+          <a href="#contact" class="tile-link">Connect <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <!-- Tile 3 – Leadership -->
+      <div class="tile reveal">
+        <div class="tile-thumb-placeholder" style="background:linear-gradient(135deg,#251a1e,#3d2030);">
+          <i class="fa-solid fa-people-group" style="color:#c47090;"></i>
+        </div>
+        <div class="tile-body">
+          <div class="tile-category">Leadership</div>
+          <h3>Community Outreach &amp; Social Work</h3>
+          <p>Led structured social work projects, taught underprivileged children, and
+             coordinated community campaigns — developing people management and empathy.</p>
+          <a href="#contact" class="tile-link">Connect <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <!-- Tile 4 – AI & Tech -->
+      <div class="tile reveal">
+        <div class="tile-thumb-placeholder" style="background:linear-gradient(135deg,#1a2c1e,#1e3d26);">
+          <i class="fa-solid fa-robot" style="color:#7dc47a;"></i>
+        </div>
+        <div class="tile-body">
+          <div class="tile-category">AI &amp; Technology</div>
+          <h3>AI Tools &amp; Prompt Engineering</h3>
+          <p>Certified in Microsoft Copilot, AI &amp; ML Fundamentals, and Azure Resource
+             Manager. Skilled in using AI to accelerate writing, research, and analytics workflows.</p>
+          <a href="#contact" class="tile-link">Connect <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <!-- Tile 5 – Events -->
+      <div class="tile reveal">
+        <div class="tile-thumb-placeholder" style="background:linear-gradient(135deg,#2c2a14,#3d3a1a);">
+          <i class="fa-solid fa-calendar-days" style="color:#c4b84a;"></i>
+        </div>
+        <div class="tile-body">
+          <div class="tile-category">Operations</div>
+          <h3>Event Management &amp; Coordination</h3>
+          <p>End-to-end institutional event planning, promotional content creation, stakeholder
+             communication, and post-event reporting with attention to detail.</p>
+          <a href="#contact" class="tile-link">Connect <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <!-- Tile 6 – Public Speaking -->
+      <div class="tile reveal">
+        <div class="tile-thumb-placeholder" style="background:linear-gradient(135deg,#1e1e2c,#252545);">
+          <i class="fa-solid fa-microphone-lines" style="color:#9090d4;"></i>
+        </div>
+        <div class="tile-body">
+          <div class="tile-category">Communication</div>
+          <h3>Public Speaking &amp; Debate</h3>
+          <p>Inter-school and collegiate competitions in elocution, debate, and public speaking.
+             Certificate of Merit in Hindi Elocution. Strong structured argumentation skills.</p>
+          <a href="#contact" class="tile-link">Connect <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── CERTIFICATIONS ─────────────────────────────── -->
+  <section id="certifications" class="section">
+    <div class="reveal">
+      <div class="section-label">Credentials</div>
+      <h2 class="section-title">Certifications &amp; Achievements</h2>
+      <p class="section-intro">A growing stack of verified skills across AI, analytics, communication, and leadership.</p>
+    </div>
+
+    <div class="cert-list reveal">
+      <div class="cert-card">
+        <div class="cert-icon"><i class="fa-solid fa-robot"></i></div>
+        <div>
+          <div class="cert-name">Microsoft Copilot</div>
+          <div class="cert-org">Certificate of Completion &nbsp;·&nbsp; AI-Powered Productivity</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon"><i class="fa-solid fa-brain"></i></div>
+        <div>
+          <div class="cert-name">AI &amp; ML Fundamentals</div>
+          <div class="cert-org">Certificate of Completion &nbsp;·&nbsp; Artificial Intelligence</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon"><i class="fa-solid fa-chart-pie"></i></div>
+        <div>
+          <div class="cert-name">Power BI</div>
+          <div class="cert-org">Certificate of Completion &nbsp;·&nbsp; Business Intelligence</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon"><i class="fa-solid fa-comments"></i></div>
+        <div>
+          <div class="cert-name">Communication Skills</div>
+          <div class="cert-org">Certificate of Completion &nbsp;·&nbsp; Leadership Training Services</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon"><i class="fa-solid fa-trophy"></i></div>
+        <div>
+          <div class="cert-name">Certificate of Merit – Hindi Elocution</div>
+          <div class="cert-org">Inter-School Competition</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon"><i class="fa-solid fa-users"></i></div>
+        <div>
+          <div class="cert-name">Leadership Training Services</div>
+          <div class="cert-org">Two Certifications &nbsp;·&nbsp; Structured Social Work &amp; Team Management</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── SKILLS ─────────────────────────────────────── -->
+  <section id="skills" class="section">
+    <div class="reveal">
+      <div class="section-label">Toolkit</div>
+      <h2 class="section-title">Skills &amp; Technologies</h2>
+    </div>
+
+    <div class="skills-groups reveal">
+      <div class="skill-group">
+        <h4>Writing &amp; Content</h4>
+        <div class="skill-pills">
+          <span class="pill">Blog Writing</span>
+          <span class="pill">Copywriting</span>
+          <span class="pill">Email Newsletters</span>
+          <span class="pill">Social Media</span>
+          <span class="pill">SEO Content</span>
+          <span class="pill">White Papers</span>
+          <span class="pill">Ad Copy</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h4>Analytics &amp; Data</h4>
+        <div class="skill-pills">
+          <span class="pill">Power BI</span>
+          <span class="pill">MS Excel</span>
+          <span class="pill">Google Sheets</span>
+          <span class="pill">Data Reporting</span>
+          <span class="pill">Dashboards</span>
+          <span class="pill">Trend Analysis</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h4>AI &amp; Cloud</h4>
+        <div class="skill-pills">
+          <span class="pill">MS Copilot</span>
+          <span class="pill">Prompt Engineering</span>
+          <span class="pill">AI &amp; ML</span>
+          <span class="pill">Azure Resource Mgr</span>
+          <span class="pill">Virtual Networks</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h4>Soft Skills</h4>
+        <div class="skill-pills">
+          <span class="pill">Public Speaking</span>
+          <span class="pill">Leadership</span>
+          <span class="pill">Team Management</span>
+          <span class="pill">Event Management</span>
+          <span class="pill">Research</span>
+          <span class="pill">Community Outreach</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── EDUCATION ──────────────────────────────────── -->
+  <section id="education" class="section">
+    <div class="reveal">
+      <div class="section-label">Academic Background</div>
+      <h2 class="section-title">Education</h2>
+    </div>
+
+    <div class="timeline reveal">
+      <div class="tl-item">
+        <div class="tl-date">Sep 2022 – Aug 2025</div>
+        <div class="tl-title">Bachelor of Arts — English Honours</div>
+        <div class="tl-org">The Bhawanipur Education Society College, Kolkata</div>
+        <div class="tl-desc">CGPA: 6.330 &nbsp;·&nbsp; Literature, Rhetoric, Critical Writing, Research Methodology</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">Completed 2022</div>
+        <div class="tl-title">ISC — Commerce with Maths &amp; Computer Science</div>
+        <div class="tl-org">St. Agnes' Convent School</div>
+        <div class="tl-desc">Aggregate: 89.25% &nbsp;·&nbsp; English, Mathematics, Computer Science, Business Studies, Economics</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── MY WORKS ──────────────────────────────────── -->
+  <section id="works" class="section">
+    <div class="reveal">
+      <div class="section-label">Portfolio</div>
+      <h2 class="section-title">My Works</h2>
+      <p class="section-intro">
+        A collection of my writing, reports, analytics projects, and other work samples.
+        Click any card to view or download the file.
+      </p>
+    </div>
+
+    <!-- Filter buttons -->
+    <div class="works-filter reveal">
+      <button class="filter-btn active" onclick="filterWorks('all', this)">All</button>
+      <button class="filter-btn" onclick="filterWorks('writing', this)">Writing</button>
+      <button class="filter-btn" onclick="filterWorks('analytics', this)">Analytics</button>
+      <button class="filter-btn" onclick="filterWorks('research', this)">Research</button>
+      <button class="filter-btn" onclick="filterWorks('design', this)">Design</button>
+      <button class="filter-btn" onclick="filterWorks('other', this)">Other</button>
+    </div>
+
+    <div class="works-grid" id="works-grid">
+
+      <!-- ── WORK CARD 1 — Writing sample ───────────────
+           HOW TO USE:
+           1. Upload your file to your GitHub repo (e.g. /works/article-title.pdf)
+           2. Replace href="#" in work-btn with the path to your file
+           3. Replace the placeholder thumbnail with:
+              <img class="work-thumb" src="works/preview.jpg" alt="..." />
+           4. Update title, description, type, and date.
+      ──────────────────────────────────────────────── -->
+      <div class="work-card reveal" data-type="writing">
+        <div class="work-thumb-placeholder" style="background:linear-gradient(135deg,#1e1b2e,#2d2045);">
+          <i class="fa-solid fa-file-lines"></i>
+          <span>Add preview image</span>
+        </div>
+        <div class="work-body">
+          <div class="work-meta">
+            <span class="work-type wt-writing">Writing</span>
+            <span class="work-date">2025</span>
+          </div>
+          <div class="work-title">Article / Blog Post Title Here</div>
+          <div class="work-desc">
+            Brief description of this piece — what it's about, who it was written for,
+            and what makes it stand out. 2–3 sentences is ideal.
+          </div>
+          <div class="work-actions">
+            <!-- Replace href="#" with your file path, e.g. href="works/my-article.pdf" -->
+            <a class="work-btn primary-btn" href="#" target="_blank">
+              <i class="fa-solid fa-eye"></i> View
+            </a>
+            <a class="work-btn" href="#" download>
+              <i class="fa-solid fa-download"></i> Download
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── WORK CARD 2 — Analytics / Report ─────────── -->
+      <div class="work-card reveal" data-type="analytics">
+        <div class="work-thumb-placeholder" style="background:linear-gradient(135deg,#1a2535,#1e3a4a);">
+          <i class="fa-solid fa-chart-bar" style="color:#6fb0c4;"></i>
+          <span>Add preview image</span>
+        </div>
+        <div class="work-body">
+          <div class="work-meta">
+            <span class="work-type wt-analytics">Analytics</span>
+            <span class="work-date">2025</span>
+          </div>
+          <div class="work-title">Data Report / Dashboard Title Here</div>
+          <div class="work-desc">
+            Describe what data was analysed, what tools were used (Excel, Power BI, etc.),
+            and what insights were uncovered. Keep it concise.
+          </div>
+          <div class="work-actions">
+            <a class="work-btn primary-btn" href="#" target="_blank">
+              <i class="fa-solid fa-eye"></i> View
+            </a>
+            <a class="work-btn" href="#" download>
+              <i class="fa-solid fa-download"></i> Download
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── WORK CARD 3 — Research ────────────────────── -->
+      <div class="work-card reveal" data-type="research">
+        <div class="work-thumb-placeholder" style="background:linear-gradient(135deg,#1a2c1e,#1e3d26);">
+          <i class="fa-solid fa-magnifying-glass-chart" style="color:#7dc47a;"></i>
+          <span>Add preview image</span>
+        </div>
+        <div class="work-body">
+          <div class="work-meta">
+            <span class="work-type wt-research">Research</span>
+            <span class="work-date">2025</span>
+          </div>
+          <div class="work-title">Research Paper / Market Study Title Here</div>
+          <div class="work-desc">
+            Outline the topic, methodology, and key findings of this research.
+            Mention any notable sources, datasets, or outcomes.
+          </div>
+          <div class="work-actions">
+            <a class="work-btn primary-btn" href="#" target="_blank">
+              <i class="fa-solid fa-eye"></i> View
+            </a>
+            <a class="work-btn" href="#" download>
+              <i class="fa-solid fa-download"></i> Download
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── WORK CARD 4 — Design / Presentation ───────── -->
+      <div class="work-card reveal" data-type="design">
+        <div class="work-thumb-placeholder" style="background:linear-gradient(135deg,#2c2a14,#3d3a1a);">
+          <i class="fa-solid fa-display" style="color:#c4b84a;"></i>
+          <span>Add preview image</span>
+        </div>
+        <div class="work-body">
+          <div class="work-meta">
+            <span class="work-type wt-design">Design</span>
+            <span class="work-date">2025</span>
+          </div>
+          <div class="work-title">Presentation / Visual Content Title Here</div>
+          <div class="work-desc">
+            Description of this presentation, infographic, or visual content — its purpose,
+            audience, and what makes it effective.
+          </div>
+          <div class="work-actions">
+            <a class="work-btn primary-btn" href="#" target="_blank">
+              <i class="fa-solid fa-eye"></i> View
+            </a>
+            <a class="work-btn" href="#" download>
+              <i class="fa-solid fa-download"></i> Download
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── WORK CARD 5 — Other ───────────────────────── -->
+      <div class="work-card reveal" data-type="other">
+        <div class="work-thumb-placeholder" style="background:linear-gradient(135deg,#251a1e,#3d2030);">
+          <i class="fa-solid fa-folder-open" style="color:#c47090;"></i>
+          <span>Add preview image</span>
+        </div>
+        <div class="work-body">
+          <div class="work-meta">
+            <span class="work-type wt-other">Other</span>
+            <span class="work-date">2025</span>
+          </div>
+          <div class="work-title">Certificate / Other Work Title Here</div>
+          <div class="work-desc">
+            This slot is for certifications, event materials, community project outputs,
+            or any other work that doesn't fit a category above.
+          </div>
+          <div class="work-actions">
+            <a class="work-btn primary-btn" href="#" target="_blank">
+              <i class="fa-solid fa-eye"></i> View
+            </a>
+            <a class="work-btn" href="#" download>
+              <i class="fa-solid fa-download"></i> Download
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ADD NEW WORK CARD (placeholder prompt) ─────
+           Duplicate any work-card block above to add more works.
+           Remove this card once all slots are filled.
+      ──────────────────────────────────────────────── -->
+      <div class="work-card add-card reveal" data-type="all">
+        <div class="add-card-inner">
+          <i class="fa-solid fa-plus"></i>
+          <span>Duplicate a card above<br/>to add more works</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── QUOTE ──────────────────────────────────────── -->
+  <section class="section" style="text-align:center; padding:3rem 2rem;">
+    <blockquote class="reveal" style="max-width:700px; margin:0 auto; font-family:var(--serif); font-size:1.15rem; font-style:italic; color:var(--text-dim); line-height:1.9;">
+      "I've always tried to instill a feeling of passion and devotion into my work so it moulds
+      whatever I'm working on to be truly valuable. The only way to do great work is to love what you do.
+      If you haven't found it yet, keep looking.
+      <strong style="color:var(--text-light); font-style:normal;">&nbsp;Never settle.</strong>"
+    </blockquote>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── CONTACT ────────────────────────────────────── -->
+  <section id="contact">
+    <div class="contact-inner">
+
+      <!-- Left: info -->
+      <div class="contact-info reveal">
+        <div class="section-label">Contact</div>
+        <h2>Let's Connect</h2>
+        <p>
+          Open to content writing roles, business analytics internships, freelance
+          projects, and collaborations. I'd love to hear from you — reach out via
+          any of the channels below.
+        </p>
+
+        <div class="contact-detail">
+          <i class="fa-solid fa-envelope"></i>
+          <a href="mailto:aryaojha2004@gmail.com">aryaojha2004@gmail.com</a>
+        </div>
+        <div class="contact-detail">
+          <i class="fa-solid fa-phone"></i>
+          <span>+91 94337 57594</span>
+        </div>
+        <div class="contact-detail">
+          <i class="fa-solid fa-location-dot"></i>
+          <span>Kolkata, West Bengal, India</span>
+        </div>
+        <div class="contact-detail">
+          <i class="fa-brands fa-linkedin-in"></i>
+          <a href="https://www.linkedin.com/in/arya-ojha-627280291?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank">
+            linkedin.com/in/arya-ojha-627280291
+          </a>
+        </div>
+
+        <div class="social-row">
+          <a class="social-btn" href="https://www.linkedin.com/in/arya-ojha-627280291?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" title="LinkedIn">
+            <i class="fa-brands fa-linkedin-in"></i>
+          </a>
+          <!-- Add your GitHub URL if you have one -->
+          <a class="social-btn" href="#" title="GitHub">
+            <i class="fa-brands fa-github"></i>
+          </a>
+          <a class="social-btn" href="mailto:aryaojha2004@gmail.com" title="Email">
+            <i class="fa-solid fa-envelope"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: availability card -->
+      <div class="reveal">
+        <div class="avail-card">
+          <h3>Currently Open To</h3>
+          <div class="avail-item">
+            <i class="fa-solid fa-pen-nib"></i>
+            <span>Content Writing &amp; Copywriting roles (full-time, part-time, or freelance)</span>
+          </div>
+          <div class="avail-item">
+            <i class="fa-solid fa-chart-bar"></i>
+            <span>Business Analytics Internships (3-month, remote or hybrid)</span>
+          </div>
+          <div class="avail-item">
+            <i class="fa-solid fa-briefcase"></i>
+            <span>HR &amp; Business Operations project-based contracts</span>
+          </div>
+          <div class="avail-item">
+            <i class="fa-solid fa-handshake"></i>
+            <span>Collaborations, community projects, and volunteering opportunities</span>
+          </div>
+          <div class="avail-item">
+            <i class="fa-solid fa-globe"></i>
+            <span>Remote-first, open to pan-India &amp; international opportunities</span>
+          </div>
+          <div class="avail-badge">Available Now</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── FOOTER ─────────────────────────────────────── -->
+  <footer>
+    <p>&copy; 2025 Arya Ojha &nbsp;·&nbsp; Kolkata, India &nbsp;·&nbsp;
+      <a href="https://www.linkedin.com/in/arya-ojha-627280291?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank">LinkedIn</a>
+    </p>
+  </footer>
+
+  <!-- ── SCRIPTS ────────────────────────────────────── -->
+  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Navbar shadow on scroll
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').style.boxShadow =
+        window.scrollY > 20 ? '0 2px 24px rgba(0,0,0,.45)' : 'none';
+    });
+
+    // Works filter
+    function filterWorks(type, btn) {
+      // update active button
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // show/hide cards
+      document.querySelectorAll('#works-grid .work-card').forEach(card => {
+        const match = type === 'all' || card.dataset.type === type;
+        card.style.opacity    = match ? '1' : '0.2';
+        card.style.transform  = match ? '' : 'scale(0.97)';
+        card.style.pointerEvents = match ? '' : 'none';
+      });
+    }
+  </script>
 
 </body>
 </html>
