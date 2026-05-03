@@ -3,133 +3,103 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Arya Ojha</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
-  .tile, .work-card {
-  will-change: transform;
+:root {
+  --bg: #0f111a;
+  --text: #e6e6eb;
+  --sub: #9ca3af;
+  --accent: #c4a1ff;
 }
 
-.tile:hover, .work-card:hover {
-  transform: translateY(-6px) scale(1.01);
-}
-*{margin:0;padding:0;box-sizing:border-box;}
-
-:root{
-  --bg:#0f1117;
-  --text:#d6d6e0;
-  --dim:#8a8aa3;
-  --accent:#b89cff;
-}
-
-body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:'Inter',sans-serif;
-  line-height:1.7;
-}
-
-section{
-  max-width:900px;
-  margin:auto;
-  padding:5rem 1.5rem;
+body {
+  margin:0;
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
 }
 
 /* NAV */
-nav{
-  position:fixed;
-  width:100%;
-  top:0;
-  padding:1rem 2rem;
+nav {
   display:flex;
   justify-content:space-between;
-  background:rgba(15,17,23,0.8);
-  backdrop-filter:blur(10px);
+  padding:20px 60px;
 }
 
-nav a{
-  color:var(--dim);
-  margin-left:1.5rem;
+nav a {
+  color: var(--sub);
+  margin-left:20px;
   text-decoration:none;
-  font-size:0.9rem;
 }
-
-nav a:hover{color:white;}
 
 /* HERO */
-#hero{
-  height:100vh;
+.hero {
+  height:90vh;
   display:flex;
-  align-items:center;
+  flex-direction:column;
   justify-content:center;
+  align-items:center;
   text-align:center;
 }
 
-h1{
-  font-family:'Merriweather',serif;
-  font-size:3.5rem;
-  font-weight:300;
+.hero h1 {
+  font-family:'Playfair Display';
+  font-size:60px;
 }
 
-.subtitle{
-  margin-top:1rem;
-  color:var(--dim);
+.hero p {
+  color: var(--sub);
+  max-width:500px;
 }
 
-/* ABOUT */
-#about p{
-  margin-top:1rem;
-  color:var(--dim);
+/* SECTION */
+.section {
+  padding:80px 60px;
+  max-width:900px;
+  margin:auto;
 }
 
-/* WORK */
-.work{
-  margin-top:2rem;
-  border-bottom:1px solid rgba(255,255,255,0.05);
-  padding-bottom:1.5rem;
+h2 {
+  font-family:'Playfair Display';
+  margin-bottom:20px;
 }
 
-.work h3{
-  font-size:1.1rem;
+/* PROJECTS */
+.project {
+  margin-bottom:30px;
 }
 
-.work p{
-  color:var(--dim);
-  font-size:0.9rem;
+/* HOBBIES */
+.hobby {
+  padding:15px;
+  border:1px solid #2a2d3a;
+  margin-top:10px;
 }
 
-/* CONTACT */
-#contact a{
+/* IMAGE */
+img {
+  width:100%;
+  border-radius:10px;
+  margin-top:15px;
+}
+
+/* BUTTON */
+.btn {
+  display:inline-block;
+  margin-top:10px;
+  padding:8px 16px;
+  border:1px solid var(--accent);
   color:var(--accent);
   text-decoration:none;
 }
 
-/* ANIMATION */
-.reveal{
-  opacity:0;
-  transform:translateY(20px);
-  transition:all .6s ease;
-}
-
-.reveal.show{
-  opacity:1;
-  transform:translateY(0);
-}
-  /* animation upgrade */
-.tile, .work-card {
-  will-change: transform;
-}
-
-.tile:hover, .work-card:hover {
-  transform: translateY(-6px) scale(1.01);
-}
-
-.reveal {
-  opacity: 0;
-  transform: translateY(40px) scale(0.98);
-  transition: all 0.8s cubic-bezier(.2,.8,.2,1);
+.btn:hover {
+  background:var(--accent);
+  color:#000;
 }
 </style>
 </head>
@@ -141,73 +111,60 @@ h1{
   <div>
     <a href="#about">About</a>
     <a href="#work">Work</a>
+    <a href="#hobbies">Hobbies</a>
     <a href="#contact">Contact</a>
   </div>
 </nav>
 
-<!-- HERO -->
-<section id="hero">
-  <div>
-    <h1>Arya Ojha</h1>
-    <div class="subtitle">
-      Writer · Analytics Enthusiast · Curious Mind
-    </div>
-  </div>
+<section class="hero">
+  <h1>Arya Ojha</h1>
+  <p>English Honours Graduate · Writer · Analytics Enthusiast</p>
 </section>
 
-<!-- ABOUT -->
-<section id="about" class="reveal">
+<section id="about" class="section">
   <h2>About</h2>
   <p>
-    I am an English Honours graduate interested in the intersection of
-    writing, data, and ideas. My work explores clarity — whether through
-    language, structured thinking, or analysis.
+    I work at the intersection of words, ideas, and data. With a background in literature and growing expertise in analytics, I aim to create work that is both thoughtful and impactful.
   </p>
-  <p>
-    With experience in content writing, public speaking, and business
-    analytics, I enjoy building things that communicate meaning clearly.
-  </p>
+
+  <!-- ADD YOUR IMAGE -->
+  <img src="images/me.jpg" alt="Arya">
 </section>
 
-<!-- WORK -->
-<section id="work" class="reveal">
+<section id="work" class="section">
   <h2>Work</h2>
 
-  <div class="work">
-    <h3>Article / Writing Sample</h3>
-    <p>A reflective or analytical piece showcasing writing ability.</p>
+  <div class="project">
+    <h3>Blog Article</h3>
+    <p>Short description of your writing work.</p>
+
+    <!-- FILE LINK -->
+    <a class="btn" href="files/article.pdf" target="_blank">View</a>
   </div>
 
-  <div class="work">
+  <div class="project">
     <h3>Analytics Project</h3>
-    <p>Data analysis using Excel / Power BI with insights.</p>
-  </div>
+    <p>Power BI / Excel based project.</p>
 
-  <div class="work">
-    <h3>Research Work</h3>
-    <p>Structured academic or independent research.</p>
+    <a class="btn" href="files/report.pdf" target="_blank">View</a>
   </div>
 
 </section>
 
-<!-- CONTACT -->
-<section id="contact" class="reveal">
+<section id="hobbies" class="section">
+  <h2>Hobbies</h2>
+
+  <div class="hobby">
+    💃 Dance  
+    <p>I enjoy dance as a form of expression and creativity.</p>
+  </div>
+
+</section>
+
+<section id="contact" class="section">
   <h2>Contact</h2>
-  <p>Email: <a href="mailto:aryaojha2004@gmail.com">aryaojha2004@gmail.com</a></p>
-  <p>LinkedIn: <a href="#">Your link here</a></p>
+  <p>Email: aryaojha2004@gmail.com</p>
 </section>
-
-<script>
-const observer=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.classList.add("show");
-    }
-  });
-});
-
-document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
-</script>
 
 </body>
 </html>
