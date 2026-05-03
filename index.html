@@ -8,6 +8,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
+  .tile, .work-card {
+  will-change: transform;
+}
+
+.tile:hover, .work-card:hover {
+  transform: translateY(-6px) scale(1.01);
+}
 *{margin:0;padding:0;box-sizing:border-box;}
 
 :root{
@@ -109,6 +116,20 @@ h1{
 .reveal.show{
   opacity:1;
   transform:translateY(0);
+}
+  /* animation upgrade */
+.tile, .work-card {
+  will-change: transform;
+}
+
+.tile:hover, .work-card:hover {
+  transform: translateY(-6px) scale(1.01);
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(40px) scale(0.98);
+  transition: all 0.8s cubic-bezier(.2,.8,.2,1);
 }
 </style>
 </head>
